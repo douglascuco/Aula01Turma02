@@ -14,13 +14,12 @@ namespace ConsoleApp3
             //pelo numero de registro do sistema
             Console.Write("Informe o livro a ser consultado: ");
             var numeroDoLivro = Console.ReadLine();
-            while (numeroDoLivro != "0")
+            while (numeroDoLivro != "sair")
             {
                 if (numeroDoLivro == "123456" )
                 {
                     Console.WriteLine("Livro  Indisponivel");
                     Console.ReadKey();
-                    return;
                 }
                 else
                 {
@@ -30,6 +29,16 @@ namespace ConsoleApp3
                     {
                         Console.WriteLine("Livro alocado!");
                         Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Livro não alocado!");
+                        Console.ReadKey();
+                    }
+                    Console.WriteLine("Deseja alocar outro livro? sim(1) não(2)");
+                    var resposta2 = Console.ReadLine();
+                    if (resposta2 == "2")
+                    {
                         return;
                     }
                 }

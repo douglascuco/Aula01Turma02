@@ -16,12 +16,12 @@ namespace CalculoDeArea
             var raio = 0.0;
             Console.WriteLine("Qual o tipo do elemento que você quer descobrir a área? Circulo(1) Triangulo(2) Quadrado(3) Retângulo(4)");
             var resposta = Console.ReadLine();
-     //     while(resposta != "1" || resposta != "2" || resposta != "3" || resposta != "4")
-     //     {
-     //         Console.WriteLine("Você deve digitar UM número de 1 a 4");
-     //         Console.WriteLine("Qual o tipo do elemento que você quer descobrir a área? Circulo(1) Triangulo(2) Quadrado(3) Retângulo(4)");
-     //         resposta = Console.ReadLine();
-     //     }
+          while(int.Parse(resposta) > 4)
+          {
+              Console.WriteLine("Você deve digitar UM número de 1 a 4");
+              Console.WriteLine("Qual o tipo do elemento que você quer descobrir a área? Circulo(1) Triangulo(2) Quadrado(3) Retângulo(4)");
+              resposta = Console.ReadLine();
+          }
             if(resposta == "1")
             {
                 Console.WriteLine("Insira o valor do raio do círculo em metros");

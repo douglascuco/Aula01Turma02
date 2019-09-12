@@ -36,5 +36,6 @@ namespace NumerosPrimos
             //numPrimo.ForEach(Console.WriteLine);
             Console.ReadKey();
         }
+        
     }
 }

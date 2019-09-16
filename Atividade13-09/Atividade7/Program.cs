@@ -48,6 +48,7 @@ namespace Atividade7
             }
             return cont;
         }
+
         /// <summary>
         /// joga para o console o numero de letras que foi achado no texto
         /// </summary>

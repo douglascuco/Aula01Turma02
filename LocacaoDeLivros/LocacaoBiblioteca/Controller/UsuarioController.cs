@@ -12,7 +12,7 @@ namespace LocacaoBiblioteca.Controller
     /// </summary>
     public class UsuarioController
     {
-        public List<Usuario> Users { get; set; }
+        private List<Usuario> Users { get; set; }
 
         /// <summary>
         /// Construtor da classe
@@ -22,6 +22,7 @@ namespace LocacaoBiblioteca.Controller
             Users = new List<Usuario>();
             Users.Add(new Usuario()
             {
+                Id = IdContador++,
                 Login = "admin",
                 Senha = "admin"
 
@@ -29,8 +30,9 @@ namespace LocacaoBiblioteca.Controller
 
             Users.Add(new Usuario()
             {
-                Login = "Douglas",
-                Senha = "123456"
+                Id = IdContador++,
+                Login = "1",
+                Senha = "1"
 
             });
 
@@ -43,8 +45,43 @@ namespace LocacaoBiblioteca.Controller
         /// <returns>retorna 'true' caso a validação correta ou 'false' caso incorreta</returns>
         public bool LoginSistema( Usuario user)
         {
-            return Users.Exists(i => i.Login == user.Login && i.Senha == user.Senha);
+            return RetornaListaDeUsuarios().Exists(i => i.Login == user.Login && i.Senha == user.Senha);
         }
 
+        /// <summary>
+        /// Cadastra o usuario inseriodo no sistema
+        /// </summary>
+        /// <param name="user">Usuario a ser inserido no sistema</param>
+        public void CadastrarUser(Usuario user)
+        {
+            user.Id = IdContador++;
+            Users.Add(user);
+        }
+
+        public bool ValidaNomeExiste(string nomeUser)
+        {
+            return Users.Exists(i => i.Login == nomeUser);
+        }
+
+        private int IdContador = 0;
+
+        /// <summary>
+        /// metodo para retornar usuarios cadastrados
+        /// </summary>
+        /// <returns>retorna os usuarios ATIVOS cadastrados</returns>
+        public List<Usuario> RetornaListaDeUsuarios()
+        {
+            return Users.Where(x => x.Ativo).ToList<Usuario>() ;
+        }
+
+
+        /// <summary>
+        /// Metodo que desativa um registro de usuario cadastrado em nossa lista
+        /// </summary>
+        /// <param name="idUser">Id do usuarios a ser desativado</param>
+        public void RemoverUsuarioPorId(int idUser)
+        {
+            Users.FirstOrDefault(x => x.Id == idUser).Ativo = false;
+        }
     }
 }

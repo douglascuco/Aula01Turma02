@@ -9,30 +9,9 @@ namespace LocacaoBiblioteca.Controller
 {
     public class LivroController
     {
+        //private List<Livro> ListaLivros { get; set; }
 
-        private List<Livro> Livros { get; set; }
-
-        public LivroController()
-        {
-            Livros = new List<Livro>();
-            Livros.Add(new Livro()
-            {
-                Id = IdContador++,
-                Nome = "Harry Potter"
-            });
-
-            Livros.Add(new Livro()
-            {
-                Id = IdContador++,
-                Nome = "Os legados de Lorien"
-            });
-
-            Livros.Add(new Livro()
-            {
-                Id = IdContador++,
-                Nome = "Maze runner"
-            });
-        }
+        LocacaoContext locacaoContext = new LocacaoContext();
 
         /// <summary>
         /// Método para adicionar um livro a lista de livros
@@ -40,8 +19,8 @@ namespace LocacaoBiblioteca.Controller
         /// <param name="livro">Informações do livro que serão adicionadas</param>
         public void CadastrarLivro(Livro livro)
         {
-            livro.Id = IdContador++;
-            Livros.Add(livro);
+            livro.Id =  locacaoContext.IdContadorLivro++;
+            locacaoContext.ListaLivros.Add(livro);
         }
 
         /// <summary>
@@ -50,9 +29,28 @@ namespace LocacaoBiblioteca.Controller
         /// <returns>retorna lista de livros</returns>
         public List<Livro> RetornaListaDeLivros()
         {
-            return Livros;
+            return locacaoContext.ListaLivros.Where(x => x.Ativo == true).ToList<Livro>() ;
         }
 
-        private int IdContador = 0;
+        public bool ValidaNomeLivroExiste(string nomeUser)
+        {
+            return locacaoContext.ListaLivros.Exists(i => i.Nome == nomeUser);
+        }
+
+        /// <summary>
+        /// remove livro pro id
+        /// </summary>
+        /// <param name="idUser">o id do livro que deseja ser removido</param>
+        public bool RemoverLivroPorId(int idLivro)
+        {
+            if (locacaoContext.ListaLivros.Exists(i => i.Id == idLivro && i.Ativo == true))
+            {
+                locacaoContext.ListaLivros.FirstOrDefault(x => x.Id == idLivro).Ativo = false;
+                return true;
+            }
+            else
+                return false;
+              
+        }
     }
 }

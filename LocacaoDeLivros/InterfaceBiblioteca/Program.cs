@@ -36,8 +36,9 @@ namespace InterfaceBiblioteca
         /// </summary>
         private static void MostrarUsuarios()
         {
+            var modelUser = "ID:{0,-3} || Login:{1,-8} || Ativo:{2,-5}";
             Console.Clear();
-            usuariosController.RetornaListaDeUsuarios().ForEach(i => Console.WriteLine($"ID: {i.Id} Login: {i.Login} Ativo: {i.Ativo}"));
+            usuariosController.RetornaListaDeUsuarios().ForEach(i => Console.WriteLine(string.Format(modelUser,i.Id,i.Login,i.Ativo)));
             Console.ReadKey(true);
         }
 
@@ -46,8 +47,9 @@ namespace InterfaceBiblioteca
         /// </summary>
         private static void MostrarLivros()
         {
+            var modelLivro = "ID:{0,-3} || Nome:{1,-25} || Ativo:{2,-5}";
             Console.Clear();
-            livrosController.RetornaListaDeLivros().ForEach(i => Console.WriteLine($"ID: {i.Id} Nome do livro: {i.Nome}"));
+            livrosController.RetornaListaDeLivros().ForEach(i => Console.WriteLine(string.Format(modelLivro,i.Id,i.Nome,i.Ativo)));
             Console.ReadKey(true);
         }
 
@@ -68,6 +70,7 @@ namespace InterfaceBiblioteca
                 Console.WriteLine("3 - Cadastrar Livro");
                 Console.WriteLine("4 - Cadastrar Usuario");
                 Console.WriteLine("5 - Remover Usuario");
+                Console.WriteLine("6 - Remover Livro");
                 Console.WriteLine("9 - Fazer LogOff");
                 Console.WriteLine("0 - Sair ");
                 validado = ValidaMenu();
@@ -98,6 +101,11 @@ namespace InterfaceBiblioteca
                     case 5:
                         //remover usuario
                         RemoverUsuario();
+                        break; 
+
+                    case 6:
+                        //remover livro
+                        RemoverLivro();
                         break;
 
 
@@ -125,7 +133,7 @@ namespace InterfaceBiblioteca
             Console.WriteLine("Cadastrar usuario dentro do sistema: ");
             Console.WriteLine("Informe o login: ");
 
-            var nomeDoUsuario = ValidaNomeExiste(ValidaNomeNull(Console.ReadLine()));
+            var nomeDoUsuario = ValidaNomeUsuarioExiste(ValidaNomeNull(Console.ReadLine()));
             
             Console.Clear();
             Console.WriteLine("Informe a senha: ");
@@ -156,7 +164,7 @@ namespace InterfaceBiblioteca
             Console.Clear();
             Console.WriteLine("Cadastrar livro dentro do sistema: ");
             Console.WriteLine("Informe o Nome do livro: ");
-            var nomeDoLivro = ValidaNomeNull(Console.ReadLine());
+            var nomeDoLivro = ValidaNomeLivroExiste(ValidaNomeNull(Console.ReadLine()));
             livrosController.CadastrarLivro(new Livro()
             {
                 Nome = nomeDoLivro
@@ -224,7 +232,7 @@ namespace InterfaceBiblioteca
         /// </summary>
         /// <param name="nomeUser"></param>
         /// <returns>retorna o nome do usuario</returns>
-        private static string ValidaNomeExiste(string nomeUser)
+        private static string ValidaNomeUsuarioExiste(string nomeUser)
         {
             while (usuariosController.ValidaNomeExiste(nomeUser))
             {
@@ -236,6 +244,26 @@ namespace InterfaceBiblioteca
             return nomeUser;
         }
 
+        /// <summary>
+        /// verifica se o nome do livro ja existe no sistema
+        /// </summary>
+        /// <param name="nomeUser">nome do livro a ser procurado</param>
+        /// <returns>o nome do sistema que não existe no sistema</returns>
+        private static string ValidaNomeLivroExiste(string nomeUser)
+        {
+            while (livrosController.ValidaNomeLivroExiste(nomeUser))
+            {
+                Console.Clear();
+                Console.WriteLine("Livro já existe no sistema");
+                Console.WriteLine("Digite outro livro para cadastrar: ");
+                nomeUser = ValidaNomeNull(Console.ReadLine());
+            }
+            return nomeUser;
+        }
+
+        /// <summary>
+        /// Metodo para remover usuario do sistema
+        /// </summary>
         private static void RemoverUsuario()
         {
             Console.WriteLine("Remover um usuario pelo ID no sistema");
@@ -243,8 +271,28 @@ namespace InterfaceBiblioteca
             Console.WriteLine("Informe o ID do usuario que deseja remover: ");
             var idUsuario = int.Parse(ValidaNomeNull(Console.ReadLine()));
 
-            usuariosController.RemoverUsuarioPorId(idUsuario);
-            Console.WriteLine("Usuario removido com sucesso");
+            if (usuariosController.RemoverUsuarioPorId(idUsuario))
+                Console.WriteLine("Usuario removido com sucesso");
+            else
+                Console.WriteLine("ID usuario não existe ou já foi removido");
+            Console.ReadKey(true);
+            
+        }
+
+        /// <summary>
+        /// metodo para remover livro do sistema
+        /// </summary>
+        private static void RemoverLivro()
+        {
+            Console.WriteLine("Remover um livro pelo ID no sistema");
+            MostrarLivros();
+            Console.WriteLine("Informe o ID do livro que deseja remover: ");
+            var idLivro = int.Parse(ValidaNomeNull(Console.ReadLine()));
+
+            if (livrosController.RemoverLivroPorId(idLivro))
+                Console.WriteLine("Livro removido com sucesso!!!");
+            else
+                Console.WriteLine("ID do livro não existe ou já foi removido");
             Console.ReadKey(true);
             
         }

@@ -186,7 +186,7 @@ namespace ListasDePessoas.Controller
 
         public List<Pessoa> MostraListaPessoas()
         {
-            return Pessoas;
+            return Pessoas; 
         }
     }
 }

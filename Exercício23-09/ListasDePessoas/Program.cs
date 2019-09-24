@@ -17,6 +17,7 @@ namespace ListasDePessoas
             4  - Listar as pessoas com menos de 16 anos - Bônus        */
 
         static PessoaController pessoasController = new PessoaController();
+        static string template = "ID:{0,-3} || Nome:{1,-10} || Data de Nascimento:{2,-10} || Salário:{3,-10}";
 
         static void Main(string[] args)
         {
@@ -30,10 +31,14 @@ namespace ListasDePessoas
         private static void MostrarOrdemPeloNome()
         {
             Console.Clear();
-            Console.WriteLine("ORDEM CRESCENTE DO NOME DAS PESSOAS");
+            Console.WriteLine("ORDEM ALFABETICA DO NOME DAS PESSOAS");
+
+
+            
+
 
             var ordemPeloNome = pessoasController.MostraListaPessoas().OrderBy(x => x.Nome).ToList<Pessoa>();
-            ordemPeloNome.ForEach(i => Console.WriteLine($"Id: {i.Id} || Nome: {i.Nome} || Data de Nascimento: {i.DataNasc.ToShortDateString()} || Salário: {i.Carteira.ToString("C")}"));
+            ordemPeloNome.ForEach(i => Console.WriteLine(string.Format(template, i.Id, i.Nome,i.DataNasc.ToShortDateString(),i.Carteira.ToString("C"))));
 
             Console.ReadKey();
         }
@@ -44,7 +49,7 @@ namespace ListasDePessoas
             Console.WriteLine("ORDEM DECRESCENTE DA DATA DE NASCIMENTO");
 
             var ordemPelaData = pessoasController.MostraListaPessoas().OrderByDescending(x => x.DataNasc).ToList<Pessoa>();
-            ordemPelaData.ForEach(i => Console.WriteLine($"Id: {i.Id} || Nome: {i.Nome} || Data de Nascimento: {i.DataNasc.ToShortDateString()} || Salário: {i.Carteira.ToString("C")}"));
+            ordemPelaData.ForEach(i => Console.WriteLine(string.Format(template, i.Id, i.Nome, i.DataNasc.ToShortDateString(), i.Carteira.ToString("C"))));
 
             Console.ReadKey();
         }
@@ -54,8 +59,8 @@ namespace ListasDePessoas
             Console.Clear();
             Console.WriteLine("PESSOAS COM MAIS DE R$ 500,00 NA CARTEIRA");
 
-            var pessoasMaisSalario = pessoasController.MostraListaPessoas().Where(i => i.Carteira > 500).ToList<Pessoa>();
-            pessoasMaisSalario.ForEach(i => Console.WriteLine($"Id: {i.Id} || Nome: {i.Nome} || Data de Nascimento: {i.DataNasc.ToShortDateString()} || Salário: {i.Carteira.ToString("C")}"));
+            var pessoasMaisSalario = pessoasController.MostraListaPessoas().FindAll(i => i.Carteira > 500).OrderBy(i => i.Carteira).ToList<Pessoa>();
+            pessoasMaisSalario.ForEach(i => Console.WriteLine(string.Format(template, i.Id, i.Nome, i.DataNasc.ToShortDateString(), i.Carteira.ToString("C"))));
 
             Console.ReadKey();
         }
@@ -67,7 +72,7 @@ namespace ListasDePessoas
             var pessoasMaior18 = from p in pessoasController.MostraListaPessoas()
                                  where CalcularIdade(p.DataNasc, DateTime.Now) > 17
                                  select p;
-            pessoasMaior18.ToList<Pessoa>().ForEach(i => Console.WriteLine($"Id: {i.Id} || Nome: {i.Nome} || Data de Nascimento: {i.DataNasc.ToShortDateString()} || Salário: {i.Carteira.ToString("C")}"));
+            pessoasMaior18.ToList<Pessoa>().ForEach(i => Console.WriteLine(string.Format(template, i.Id, i.Nome, i.DataNasc.ToShortDateString(), i.Carteira.ToString("C"))));
 
             Console.ReadKey();
         }
@@ -80,7 +85,7 @@ namespace ListasDePessoas
             var pessoasMenor16 = from p in pessoasController.MostraListaPessoas()
                                  where CalcularIdade(p.DataNasc, DateTime.Now) < 17
                                  select p;
-            pessoasMenor16.ToList<Pessoa>().ForEach(i => Console.WriteLine($"Id: {i.Id} || Nome: {i.Nome} || Data de Nascimento: {i.DataNasc.ToShortDateString()} || Salário: {i.Carteira.ToString("C")}"));
+            pessoasMenor16.ToList<Pessoa>().ForEach(i => Console.WriteLine(string.Format(template, i.Id, i.Nome, i.DataNasc.ToShortDateString(), i.Carteira.ToString("C"))));
 
             Console.ReadKey();
         }

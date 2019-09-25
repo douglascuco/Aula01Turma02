@@ -230,35 +230,35 @@ namespace InterfaceBiblioteca
         /// <summary>
         /// verifica se o login do usuario já existe no sistema
         /// </summary>
-        /// <param name="nomeUser"></param>
+        /// <param name="loginUser"></param>
         /// <returns>retorna o nome do usuario</returns>
-        private static string ValidaNomeUsuarioExiste(string nomeUser)
+        private static string ValidaNomeUsuarioExiste(string loginUser)
         {
-            while (usuariosController.ValidaNomeExiste(nomeUser))
+            while (usuariosController.ValidaNomeExiste(loginUser))
             {
                 Console.Clear();
                 Console.WriteLine("Usuario já existe no sistema");
                 Console.WriteLine("Digite outro usuario para login: ");
-                nomeUser = ValidaNomeNull(Console.ReadLine());
+                loginUser = ValidaNomeNull(Console.ReadLine());
             }
-            return nomeUser;
+            return loginUser;
         }
 
         /// <summary>
         /// verifica se o nome do livro ja existe no sistema
         /// </summary>
-        /// <param name="nomeUser">nome do livro a ser procurado</param>
+        /// <param name="nomeLivro">nome do livro a ser procurado</param>
         /// <returns>o nome do sistema que não existe no sistema</returns>
-        private static string ValidaNomeLivroExiste(string nomeUser)
+        private static string ValidaNomeLivroExiste(string nomeLivro)
         {
-            while (livrosController.ValidaNomeLivroExiste(nomeUser))
+            while (livrosController.ValidaNomeLivroExiste(nomeLivro))
             {
                 Console.Clear();
                 Console.WriteLine("Livro já existe no sistema");
                 Console.WriteLine("Digite outro livro para cadastrar: ");
-                nomeUser = ValidaNomeNull(Console.ReadLine());
+                nomeLivro = ValidaNomeNull(Console.ReadLine());
             }
-            return nomeUser;
+            return nomeLivro;
         }
 
         /// <summary>

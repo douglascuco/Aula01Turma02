@@ -1,0 +1,1 @@
+﻿select usu.Nome as 'Nome Usuario', vei.Modelo, loc.Valor, loc.DataInicio, loc.DataDevolucao from Locacoes loc inner join Usuarios usu on loc.UsuarioId = usu.Id inner join Veiculos vei on loc.VeiculoId = vei.Id

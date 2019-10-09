@@ -11,46 +11,61 @@ namespace LocacaoBiblioteca.Controller
     {
         //private List<Livro> ListaLivros { get; set; }
 
-        LocacaoContext locacaoContext = new LocacaoContext();
-
-        /// <summary>
-        /// Método para adicionar um livro a lista de livros
-        /// </summary>
-        /// <param name="livro">Informações do livro que serão adicionadas</param>
-        public void CadastrarLivro(Livro livro)
-        {
-            livro.Id =  locacaoContext.IdContadorLivro++;
-            locacaoContext.ListaLivros.Add(livro);
-        }
+        LocacaoContext contextDB = new LocacaoContext();
 
         /// <summary>
         /// metodo para retornar listra de livros
         /// </summary>
         /// <returns>retorna lista de livros</returns>
-        public List<Livro> RetornaListaDeLivros()
+        public IQueryable<Livro> RetornaListaDeLivros()
         {
-            return locacaoContext.ListaLivros.Where(x => x.Ativo == true).ToList<Livro>() ;
+            return contextDB.ListaLivros.Where(x => x.Ativo == true);
         }
 
-        public bool ValidaNomeLivroExiste(string nomeUser)
+        public IQueryable<Livro> RetornaListaAdmin()
         {
-            return locacaoContext.ListaLivros.Exists(i => i.Nome == nomeUser);
+            return contextDB.ListaLivros.Where(x => x.Ativo == false);
         }
 
-        /// <summary>
-        /// remove livro pro id
-        /// </summary>
-        /// <param name="idUser">o id do livro que deseja ser removido</param>
-        public bool RemoverLivroPorId(int idLivro)
+        public bool CadastrarLivro(Livro livro)
         {
-            if (locacaoContext.ListaLivros.Exists(i => i.Id == idLivro && i.Ativo == true))
-            {
-                locacaoContext.ListaLivros.FirstOrDefault(x => x.Id == idLivro).Ativo = false;
-                return true;
-            }
-            else
+            if (string.IsNullOrWhiteSpace(livro.Nome))
                 return false;
-              
+
+            contextDB.ListaLivros.Add(livro);
+            contextDB.SaveChanges();
+            return true;
         }
+
+        public bool RemoverLivro(int idLivro)
+        {
+            var livro = contextDB.ListaLivros.FirstOrDefault(x => x.Id == idLivro);
+            if (livro == null)
+                return false;
+
+            livro.Ativo = false;
+            contextDB.SaveChanges();
+
+            return true;
+        }
+
+        public bool AtualizarLivro(Livro item)
+        {
+            var livro = contextDB.ListaLivros.FirstOrDefault(x => x.Id == item.Id);
+            if (livro == null)
+                return false;
+            else
+            {
+                item.DataAlteracao = DateTime.Now;
+            }
+            contextDB.SaveChanges();
+            return true;
+        }
+
+        public bool ValidaNomeLivroExiste(string nomeLivro)
+        {
+           return RetornaListaDeLivros().ToList<Livro>().Exists(x => x.Nome == nomeLivro);
+        }
+
     }
 }

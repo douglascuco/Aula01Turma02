@@ -12,7 +12,17 @@ namespace LocacaoBiblioteca.Controller
     /// </summary>
     public class UsuarioController
     {
-        LocacaoContext locacaoContext = new LocacaoContext();
+        LocacaoContext contextDB = new LocacaoContext();
+
+
+        /// <summary>
+        /// metodo para retornar usuarios cadastrados
+        /// </summary>
+        /// <returns>retorna os usuarios ATIVOS cadastrados</returns>
+        public IQueryable<Usuario> RetornaListaDeUsuarios()
+        {
+            return contextDB.ListaUsuarios.Where(x => x.Ativo);
+        }
 
         /// <summary>
         /// Metodo para Validar login no sistema
@@ -21,48 +31,45 @@ namespace LocacaoBiblioteca.Controller
         /// <returns>retorna 'true' caso a validação correta ou 'false' caso incorreta</returns>
         public bool LoginSistema( Usuario user)
         {
-            return RetornaListaDeUsuarios().Exists(i => i.Login == user.Login && i.Senha == user.Senha);
+            return false;
         }
 
-        /// <summary>
-        /// Cadastra o usuario inseriodo no sistema
-        /// </summary>
-        /// <param name="user">Usuario a ser inserido no sistema</param>
-        public void CadastrarUser(Usuario user)
+        public bool CadastrarUsuario(Usuario user)
         {
-            user.Id = locacaoContext.IdContadorUser++;
-           locacaoContext.ListaUsuarios.Add(user);
-        }
-
-        public bool ValidaNomeExiste(string nomeUser)
-        {
-            return locacaoContext.ListaUsuarios.Exists(i => i.Login == nomeUser);
-        }
-
-        /// <summary>
-        /// metodo para retornar usuarios cadastrados
-        /// </summary>
-        /// <returns>retorna os usuarios ATIVOS cadastrados</returns>
-        public List<Usuario> RetornaListaDeUsuarios()
-        {
-            return locacaoContext.ListaUsuarios.Where(x => x.Ativo).ToList<Usuario>() ;
-        }
-
-        /// <summary>
-        /// Metodo que desativa um registro de usuario cadastrado em nossa lista
-        /// </summary>
-        /// <param name="idUser">Id do usuarios a ser desativado</param>
-        public bool RemoverUsuarioPorId(int idUser)
-        {
-
-            if (locacaoContext.ListaUsuarios.Exists(i => i.Id == idUser && i.Ativo == true))
-            {
-                locacaoContext.ListaUsuarios.FirstOrDefault(x => x.Id == idUser).Ativo = false;
-                return true;
-            }
-            else
+            if (string.IsNullOrWhiteSpace(user.Login))
                 return false;
-            
+            if (string.IsNullOrWhiteSpace(user.Senha))
+                return false;
+
+            contextDB.ListaUsuarios.Add(user);
+            contextDB.SaveChanges();
+            return true;
         }
+
+        public bool RemoverUsuario(int idUser)
+        {
+            var usuario = contextDB.ListaUsuarios.FirstOrDefault(x => x.Id == idUser);
+            if (usuario == null)
+                return false;
+
+            usuario.Ativo = false;
+            contextDB.SaveChanges();
+
+            return true;
+        }
+
+        public bool AtualizarUsuario(Usuario item)
+        {
+            var usuario = contextDB.ListaUsuarios.FirstOrDefault(x => x.Id == item.Id);
+            if (usuario == null)
+                return false;
+            else
+            {
+                item.DataAlteracao = DateTime.Now;
+            }
+            contextDB.SaveChanges();
+            return true;
+        }
+
     }
 }

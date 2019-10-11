@@ -11,16 +11,15 @@ namespace BibliotecaFloricultura.Controller
     {
         FloresContext flores = new FloresContext();
 
-        public List<Flor> GetFlores()
+        public IQueryable<Flor> GetFlores()
         {
-            return flores.Flores.ToList<Flor>();
+            return flores.Flores;
         }
 
         public bool AddFlor(Flor flor)
         {
             if (string.IsNullOrWhiteSpace(flor.Nome))
                 return false;
-
 
             flores.Flores.Add(flor);
             flores.SaveChanges();

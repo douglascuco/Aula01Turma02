@@ -8,7 +8,7 @@ using BibliotecaFloricultura.Model;
 
 namespace ViewFloricultura
 {
-    class Program
+    public class Program
     {
         static ControllerFlores controller = new ControllerFlores();
         static void Main(string[] args)
@@ -33,6 +33,9 @@ namespace ViewFloricultura
                     case 2:
                         ListarNomes();
                         break;
+                    case 3:
+                        RelatorioFlores();
+                        break;
 
                     default:
                         break;
@@ -46,7 +49,7 @@ namespace ViewFloricultura
         private static void ListarNomes()
         {
             Console.WriteLine("-----Listagem de Flores-----");
-            controller.GetFlores().ForEach(x => Console.WriteLine($"Id: {x.Id} || Nome: {x.Nome}"));
+            controller.GetFlores().ToList<Flor>().ForEach(x => Console.WriteLine($"Id: {x.Id} || Nome: {x.Nome} || Quantidade: {x.Quantidade}"));
             Console.WriteLine("Digite qualquer tecla para voltar ao menu");
             Console.ReadKey(true);
             Console.Clear();
@@ -62,14 +65,29 @@ namespace ViewFloricultura
             var quant = int.Parse(Console.ReadLine());
             var resultado = controller.AddFlor(new Flor() { Nome = nome, Quantidade = quant});
             if (resultado)
-                Console.WriteLine("Nome Adicionado com Sucesso!!!");
+                Console.WriteLine("Flor Adicionado com Sucesso!!!");
             else
-                Console.WriteLine("Erro ao adicionar nome ):");
+                Console.WriteLine("Erro ao adicionar flor ):");
             Console.WriteLine("Digite qualquer tecla para voltar ao menu");
             Console.ReadKey(true);
             Console.Clear();
         }
 
+        private static void RelatorioFlores()
+        {
+            Console.WriteLine("-----Relatorio Flores------");
+            Console.WriteLine("-----Ordenando por maior quantidade------");
+
+            var resultado = controller.GetFlores().OrderByDescending(x => x.Quantidade);
+            //resultado.ToList<string>().ForEach(x => Console.WriteLine($"Nome: {x.Key["Nome"]} || Quantidade: {x.Key["Quantidade"]}"));
+            resultado.ToList<Flor>().ForEach(x => Console.WriteLine($"Nome: {x.Nome} || Quantidade: {x.Quantidade}"));
+
+            var somaTotal = controller.GetFlores().Sum(x => x.Quantidade);
+            Console.WriteLine($"Quantidade Total : {somaTotal}");
+
+            Console.ReadKey(true);
+            Console.Clear();
+        }
 
     }
     

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Login</title>
+	
+
+
+	<style type="text/css">
+		#telalogin
+		{	
+			background-color: #69C9CE;
+			width: 300px;
+    	 	height: 200px;
+    		margin: 18% auto;
+    		border-style: solid;
+   		    border-width: 10px;
+   		    border-radius: 25px;
+   		    border-color: #059CA7;
+   		    color: #1D285A;
+   		    font-size: 20px;
+   		    font-family: Georgia, serif;
+   		    box-shadow: 0px 0px 25px #059CA7;
+		}
+
+		#login
+		{
+			
+			text-align: center;
+			margin: 20px;
+		}
+
+		#senha
+		{
+			
+			text-align: center;
+			margin: 20px;
+		}
+
+		#botao
+		{
+			text-align: center;
+			margin: 20px;
+
+		}
+
+		h3
+		{
+			text-align: center;
+			margin: 20px;
+		}
+
+
+	</style>
+</head>
+<body>
+
+	<div id="telalogin">
+		<div ><h3>Tela de Login</h3></div>
+		<div id="login">Login: <input type="text" name="campologin" ></div>
+		<div id="senha">Senha: <input type="password" name="camposenha" ></div>
+		<div id="botao"><input type="button" name="btnentrar" value="Entrar" onclick= "msg()"></div>
+	</div>
+	<script>
+		function msg() 
+		{
+  			alert("Login efetuado com sucesso!");
+		}
+</script>
+</body>
+</html>

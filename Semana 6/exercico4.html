@@ -8,25 +8,57 @@
 	<style type="text/css">
 		#telacadastro
 		{	
-			background-color: #69C9CE;
-			width: 400px;
-    	 	height: 500px;
+			background-color: white;
+			width: 330px;
+    		height: 350px;
     		margin: 18% auto;
-    		border-style: solid;
-   		    border-width: 10px;
-   		    border-radius: 25px;
-   		    border-color: #059CA7;
-   		    color: #1D285A;
    		    font-family: Georgia, serif;
-   		    box-shadow: 0px 0px 25px #059CA7;
+   		    box-shadow: 0px 0px 25px black;
+
+		}
+
+		#nome , #idade , #genero, #nacionalidade, #cpf, #datanasc, #botao
+		{
+			margin: 10px;
 		}
 
 		
+		#genero
+		{
+			margin: 10px;
 
-		h3
+		}
+
+		#nacionalidade
+		{
+			margin: 10px;
+
+		}
+
+		#cpf
+		{
+			margin: 10px;
+
+		}
+
+		#datanasc
+		{
+			margin: 10px;
+
+		}
+
+		#botao
 		{
 			text-align: center;
-			margin: 20px;
+			margin: 10px;
+			margin-top: 13%;
+		}
+		
+
+		h2
+		{
+			text-align: center;
+			margin: 30px;
 		}
 
 
@@ -35,17 +67,24 @@
 <body>
 
 	<div id="telacadastro">
-		<div ><h3>Tela de Cadastro</h3></div>
+		<div ><h2>Tela de Cadastro</h2></div>
 		<div id="nome">Nome: <input type="text" name="camponome" ></div>
 		<div id="idade">Idade: <input type="text" name="campoidade" maxlength="3"></div>
-		<div id="genero"><select><option>Masculino</option><option>Feminino</option><option>Outros</option></div>
+		<div id="genero">Genero: <select><option>Masculino</option><option>Feminino</option><option>Outros</option></select></div>
+		<div id="nacionalidade"><label for="nacionalidade">Nacionalidade: </label><input type="text" name="nacionalidade"></div>
+		<div id="cpf">CPF: <input type="text" name="cpf"   placeholder="XXX.XXX.XXX-XX"></div>
+		<div id="datanasc">Data de Nascimento:<input type="text" name="datanasc"  placeholder="DD/MM/AAAA"></div>
 		<div id="botao"><input type="button" name="btnentrar" value="Entrar" onclick= "msg()"></div>
 	</div>
-	<script>
+
+	<script src="inputmask/dist/jquery.inputmask.js" src="inputmask/lib/dependencyLibs/inputmask.dependencyLib.jquery">
 		function msg() 
 		{
   			alert("Cadastro efetuado com sucesso!");
 		}
-</script>
+		$(":input").inputmask();
+
+		$("#cpf").inputmask({"mask": "999.999.999-99"});
+	</script>
 </body>
 </html>

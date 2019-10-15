@@ -49,11 +49,34 @@
 			margin: 20px;
 		}
 
+		#myVideo 
+		{
+  			position: fixed;
+  			top: 0;
+  			left: : 0;
+  			width: 50%;
+  			z-index: -1;
+		}
+
+		#myVideo2
+		{
+  			position: fixed;
+  			top: 0;
+  			right: 0;
+  			width: 50%;
+  			z-index: -1;
+		}
+
 
 	</style>
 </head>
 <body>
-
+	<video autoplay loop muted id="myVideo">
+		<source src="dog.mp4" type="video/mp4">
+	</video>
+	<video autoplay loop muted id="myVideo2">
+		<source src="dog.mp4" type="video/mp4">
+	</video>
 	<div id="telalogin">
 		<div ><h3>Tela de Login</h3></div>
 		<div id="login">Login: <input type="text" name="campologin" ></div>

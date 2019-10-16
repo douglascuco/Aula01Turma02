@@ -1,0 +1,32 @@
+body {
+    height: 100vh;
+    background-image: url('../img/money.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.invis {
+    background-color: transparent;
+}
+
+input{
+    text-align: center;
+}
+
+.form-group {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.ajust-top {
+    margin-top: 15px;
+}
+
+.card-header{
+    text-align:center;
+    font-size: 20px;
+}
+
+.ajust-back {
+    background-color: #ffffffde;
+}

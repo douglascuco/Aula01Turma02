@@ -1,0 +1,7 @@
+.time-now{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: orange;
+    font-size: 50px;
+    text-align: center;
+    box-shadow: 1px 1px 50px black;
+}

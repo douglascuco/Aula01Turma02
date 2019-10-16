@@ -1,0 +1,10 @@
+body {
+    height: 100vh;
+    background-image: url('../img/boasVindas3.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.invis{
+    background-color: transparent;
+}

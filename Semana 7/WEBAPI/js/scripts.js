@@ -14,13 +14,13 @@ $(document).ready(
                 }
                 jsoncep = "https://viacep.com.br/ws/" + campo_cep.replace(",", "") + "/json/"
                 $.get(jsoncep, function (data) {
-                    if (data.bairro == null) {
+                    if (data.erro) {
                         alert("CEP INVALIDO!!! Digite novamente");
                         LimparCampos();
                         return;
                     }
                         
-                    $('input[name="estado"]').val(data.bairro);
+                    $('input[name="bairro"]').val(data.bairro);
                     $('input[name="uf"]').val(data.uf);
                     $('input[name="rua"]').val(data.logradouro);
                     $('input[name="cidade"]').val(data.localidade);

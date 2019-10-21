@@ -1,0 +1,35 @@
+body {
+    height: 100vh;
+    background-image: url('../img/shop.gif');
+    background-size: cover;
+}
+
+.table-fixed thead {
+    width: 100%;
+}
+
+.table-fixed {
+    background: #fffffff2;
+}
+
+.bgazul {
+    background: #007bffab;
+}
+
+.table-fixed tbody {
+    height: 31vh;
+    overflow-y: auto;
+    width: 100%;
+    margin: 0;
+
+}
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+
+
+.table-fixed tbody td, .table-fixed thead > tr > th {
+    float: left;
+    border-bottom-width: 0;
+}

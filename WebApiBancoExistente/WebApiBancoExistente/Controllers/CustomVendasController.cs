@@ -18,12 +18,11 @@ namespace WebApiBancoExistente.Controllers
         [Route("Api/Vendas/RelatorioAno/{Ano}")]
         public object RelatorioVendasAno(int ano)
         {
-            var listVendas = db.Vendas.ToList();
+            var listVendas = db.Vendas.Where(x => x.DatInc.Year == ano).ToList();
             var listCarros = db.Carros.ToList();
             var conteudoVendas = from ven in listVendas
                                  join car in listCarros
                                  on ven.Carro equals car.Id
-                                 where ven.DatInc.Year == ano
                                  select new
                                  {
                                      NomeCarro = car.Modelo,
@@ -40,7 +39,7 @@ namespace WebApiBancoExistente.Controllers
         [Route("Api/Vendas/RelatorioAnoPorUsuario/{Ano}/{IdUsuario}")]
         public object RelatorioVendasAnoPorUsuario(int ano, int idUsuario)
         {
-            var listVendas = db.Vendas.ToList();
+            var listVendas = db.Vendas.Where(x => x.DatInc.Year == ano && x.UsuInc == idUsuario).ToList();
             var listCarros = db.Carros.ToList();
             var listUsuarios = db.Usuarios.ToList();
             var conteudoVendas = from ven in listVendas
@@ -48,7 +47,6 @@ namespace WebApiBancoExistente.Controllers
                                  on ven.Carro equals car.Id
                                  join usu in listUsuarios
                                  on ven.UsuInc equals usu.Id
-                                 where ven.DatInc.Year == ano && ven.UsuInc == idUsuario
                                  select new
                                  {
                                      NomeCarro = car.Modelo,
@@ -61,24 +59,24 @@ namespace WebApiBancoExistente.Controllers
         }
 
         [HttpGet]
-        [Route("Api/Vendas/RelatorioMarca/{idMarca}")]
-        public object RelatorioVendasPorMarca(int idMarca)
+        [Route("Api/Vendas/RelatorioMarca/{Ano}/{idMarca}")]
+        public object RelatorioVendasPorMarca(int ano, int idMarca)
         {
-            var listVendas = db.Vendas.ToList();
+            var listVendas = db.Vendas.Where(x => x.DatInc.Year == ano).ToList();
             var listCarros = db.Carros.ToList();
-            var listMarcas = db.Marcas.ToList();
+            var listMarcas = db.Marcas.Where(x => x.Id == idMarca).ToList();
             var conteudoVendas = from ven in listVendas
                                  join car in listCarros
                                  on ven.Carro equals car.Id
                                  join mar in listMarcas
                                  on car.Marca equals mar.Id
-                                 where mar.Id == idMarca
                                  orderby ven.Quantidade descending
                                  select new
                                  {
                                      NomeMarca = mar.Nome,
                                      QuantidadeVenda = ven.Quantidade,
-                                     ValorVenda = ven.Valor
+                                     ValorVenda = ven.Valor,
+                                     DataVenda = ven.DatInc.ToShortDateString()
                                  };
 
             return conteudoVendas;
